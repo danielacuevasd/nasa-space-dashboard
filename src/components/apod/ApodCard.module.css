@@ -44,10 +44,6 @@
   color: var(--color-text-secondary);
 }
 
-.statusError {
-  color: var(--color-danger);
-}
-
 .content {
   display: flex;
   flex-direction: column;

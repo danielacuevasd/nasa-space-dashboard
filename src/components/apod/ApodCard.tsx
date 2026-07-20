@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useApod } from '../../hooks/useApod'
+import ErrorMessage from '../shared/ErrorMessage'
 import styles from './ApodCard.module.css'
 
 const MIN_DATE = '1995-06-16'
@@ -34,9 +35,9 @@ function ApodCard() {
       {isLoading && <p className={styles.status}>Cargando...</p>}
 
       {isError && (
-        <p className={`${styles.status} ${styles.statusError}`}>
-          No se pudo cargar la imagen: {error instanceof Error ? error.message : 'Error desconocido'}
-        </p>
+        <ErrorMessage
+          message={`No se pudo cargar la imagen: ${error instanceof Error ? error.message : 'Error desconocido'}`}
+        />
       )}
 
       {data && (

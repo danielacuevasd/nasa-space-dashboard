@@ -24,7 +24,8 @@ export async function fetchFromNasa<T>(
   const response = await fetch(url)
 
   if (!response.ok) {
-    throw new NasaApiError(response.status, `NASA API error: ${response.statusText}`)
+    const reason = response.statusText || `código ${response.status}`
+    throw new NasaApiError(response.status, `NASA API error: ${reason}`)
   }
 
   return response.json()

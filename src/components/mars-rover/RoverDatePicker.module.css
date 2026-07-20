@@ -1,0 +1,14 @@
+.dateInput {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-bg-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+
+.dateInput:focus-visible {
+  outline: 2px solid var(--color-accent-violet);
+  outline-offset: 2px;
+}
