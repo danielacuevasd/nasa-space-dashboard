@@ -1,75 +1,72 @@
-# React + TypeScript + Vite
+# NASA Space Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard interactivo que consume tres APIs públicas de la NASA (APOD, Mars Rover Photos, NeoWs) para explorar imágenes astronómicas del día, fotos tomadas por los rovers en Marte, y asteroides cercanos a la Tierra.
 
-Currently, two official plugins are available:
+## Vista previa
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![APOD Section](./docs/screenshot-apod.png)
+![Mars Rover Section](./docs/screenshot-rover.png)
+![NeoWs Section](./docs/screenshot-neows.png)
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Vite + React + TypeScript**
+- **TanStack Query** — manejo de fetch, cache y estados de carga/error
+- **Recharts** — visualización de datos (timeline de asteroides)
+- **yet-another-react-lightbox** — galería de fotos de Mars Rover
+- **CSS Modules** — estilos aislados por componente
+- **Vitest** — testing unitario
+- **Playwright** — verificación visual y de accesibilidad durante desarrollo
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Astronomy Picture of the Day (APOD)
+Imagen o video astronómico del día, con selector de fecha para explorar el archivo histórico de la NASA.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Mars Rover Photos
+Galería de fotos tomadas por los rovers Curiosity y Perseverance, filtrable por fecha terrestre, con lightbox para ver las imágenes en detalle.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Asteroides cercanos (NeoWs)
+Visualización de asteroides que se aproximan a la Tierra en un rango de 7 días, con gráfico de distancia (en distancias lunares) y detalle individual de cada objeto, incluyendo alerta visual para los potencialmente peligrosos.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Cómo correrlo localmente
 
-```
+1. Clonar el repositorio
+   ```bash
+   git clone <url-del-repositorio>
+   cd nasa-space-dashboard
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependencias
+   ```bash
+   npm install
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Obtener una API key gratuita de NASA en [api.nasa.gov](https://api.nasa.gov)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+4. Crear un archivo `.env` en la raíz con:
+   ```
+   VITE_NASA_API_KEY=tu_key_aca
+   ```
 
-```
+5. Correr el proyecto
+   ```bash
+   npm run dev
+   ```
+
+## Decisiones técnicas
+
+- **TanStack Query sobre `useState`/`useEffect` manual**: simplifica el manejo de cache, estados de carga/error y revalidación entre las tres APIs consumidas.
+- **CSS Modules + tokens de diseño centralizados**: la paleta y el sistema de espaciado viven en `tokens.ts` y se exponen como CSS custom properties en `global.css`, evitando valores hardcodeados repetidos entre componentes.
+- **Manejo cuidadoso de zonas horarias**: las fechas se calculan con componentes de fecha local en vez de `toISOString()` (que convierte a UTC), evitando bugs de "día equivocado" al consultar las APIs de la NASA.
+- **Recharts con colores desde `tokens.ts`, no CSS variables**: los atributos SVG que usa la librería no siempre resuelven bien `var(--...)`, así que los colores del gráfico se toman directo de la fuente de tokens en TypeScript.
+- **Accesibilidad**: estados de foco visibles y consistentes en todos los elementos interactivos (navegación por teclado), verificados explícitamente durante el desarrollo.
+- **Diseño responsive sin breakpoints rígidos**: grillas con `auto-fill`/`minmax` y comportamiento adaptativo en gráficos, en vez de reglas fijas por dispositivo.
+
+## Próximos pasos
+
+- Revisión de UX/UI general: mejorar la distribución y jerarquía visual de las secciones, especialmente la lista de NeoWs (actualmente una columna larga que podría reorganizarse en una grilla o layout más eficiente)
+- Sumar Opportunity y Spirit como rovers adicionales
+- Filtro por cámara en Mars Rover Photos
+- Tests end-to-end más completos con Playwright
+- Modo de comparación de fechas en NeoWs
