@@ -16,7 +16,6 @@
 .card:focus-visible {
   border-color: var(--color-border-accent);
   box-shadow: var(--shadow-glow-violet);
-  outline: none;
 }
 
 .image {

@@ -10,6 +10,12 @@
   border-radius: var(--radius-lg);
 }
 
+@media (max-width: 480px) {
+  .section {
+    padding: var(--spacing-md);
+  }
+}
+
 .header {
   display: flex;
   align-items: center;

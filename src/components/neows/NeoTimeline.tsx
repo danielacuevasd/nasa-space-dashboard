@@ -50,14 +50,18 @@ function NeoTimeline({ asteroids }: NeoTimelineProps) {
   return (
     <div className={styles.chart}>
       <ResponsiveContainer width="100%" height={320}>
-        <ScatterChart margin={{ top: 16, right: 16, bottom: 8, left: 8 }}>
+        <ScatterChart margin={{ top: 16, right: 16, bottom: 24, left: 8 }}>
           <CartesianGrid stroke={colors.border.subtle} strokeDasharray="4 4" />
           <XAxis
             dataKey="approachDate"
             type="category"
             allowDuplicatedCategory={false}
             stroke={colors.text.secondary}
-            tick={{ fill: colors.text.secondary, fontSize: 12 }}
+            tick={{ fill: colors.text.secondary, fontSize: 11 }}
+            angle={-30}
+            textAnchor="end"
+            height={56}
+            interval="preserveStartEnd"
           />
           <YAxis
             dataKey="missDistanceLunar"
