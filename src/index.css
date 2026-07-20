@@ -109,3 +109,9 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+body {
+  background-color: #0b0d17;
+  color: #f4f4f6;
+  margin: 0;
+}
